@@ -1,4 +1,7 @@
-<% @users.each do |user| %>
-   <div class="user-row"><%= user.email %></div>
-<% end %>
-<%= link_to "Back", :back %>
+<h2>All users</h2>
+<div class="user-form">
+	<% @users.each do |user| %>
+	   <div class="user-row"><%= user.email %></div>
+	<% end %>
+	<%= link_to "Back", :back %>
+</div>
