@@ -5,6 +5,9 @@ class CommentsController < ApplicationController
     commentable = commentable_type.constantize.find(commentable_id)
     @comment = Comment.build_from(commentable, current_user.id, body)
     respond_to do |format|
+    if Blogpost.find_by(id: @comment.commentable_id).comment_type == Blogpost::ALL_ALLOWED
+      @comment.approved = true;
+    end
       if @comment.save
         make_child_comment
         format.html  { redirect_to(:back, :notice => 'Comment was successfully added.') }
