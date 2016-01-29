@@ -1,0 +1,35 @@
+
+
+<div class="blogpost-show">
+	<h1><%= @blogpost.author %></h1>
+	<div class="tags">
+		<%= raw @blogpost.tag_list.map { |t| link_to t, tag_path(t), class: "badge" }.join(' ') %>
+	</div>
+
+	<div class="body"><%= raw @blogpost.body.gsub(/\n/, "<br>") %></div>
+
+	<%= link_to like_blogpost_path(@blogpost), method: :put do %>
+	  <span class="glyphicon glyphicon-thumbs-up"></span>
+	  <%= @blogpost.get_upvotes.size %>
+	<% end %>
+
+	<%= link_to dislike_blogpost_path(@blogpost), method: :put do %>
+	  <span class="glyphicon glyphicon-thumbs-down"></span>
+	  <%= @blogpost.get_downvotes.size %>
+	<% end %>
+
+	<% if @blogpost.comment_type != Blogpost::DISABLED %>
+	<%= render partial: "comments/template", locals: {commentable: @blogpost, new_comment: @new_comment} %>
+	<% end %>
+	  
+
+	<% if can? :update, @blogpost %>
+	<%= link_to 'Edit', edit_blogpost_path(@blogpost) %>
+	|<% end %> 
+	<%= link_to 'Back', blogposts_path %>
+
+</div>
+
+
+
+

@@ -1,0 +1,37 @@
+<% comments.each do |comment| %>
+  <% next if cannot? :show, comment %>
+  <div class="comments-show">
+    <div class="comment well">
+      <p><b><%= @user.find_by(id: comment.user_id).email %>:</b>
+        <%= comment.body %><br></p>
+      <div class="comment-nav">
+        <a href="#" class="comment-reply">Reply</a> |
+        <%= link_to like_comment_path(comment), method: :put do %>
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+          <%= comment.get_upvotes.size %>
+        <% end %>
+
+        <%= link_to dislike_comment_path(comment), method: :put do %>
+          <span class="glyphicon glyphicon-thumbs-down"></span>
+          <%= comment.get_downvotes.size %>
+        <% end %>
+
+        <%= link_to "| Approve comment", approve_comment_path(comment), method: :put unless comment.approved? %>
+      </div>
+      <div class="reply-form">
+        <%= form_for @new_comment do |f| %>
+          <%= f.hidden_field :commentable_id, value: @new_comment.commentable_id %>
+          <%= f.hidden_field :commentable_type, value: @new_comment.commentable_type %>
+          <%= f.hidden_field :comment_id, value: comment.id %>
+          <div class="field form-group">
+            <%= f.text_area :body, class: 'form-control' %>
+          </div>
+          <div class="field form-group">
+            <%= submit_tag "Post Reply", class: 'btn btn-primary' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <%= render partial: "comments/reply", locals: {comments: comment.children} %>
+  </div>
+<% end %>  

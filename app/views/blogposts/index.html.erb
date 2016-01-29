@@ -1,0 +1,48 @@
+<h1>
+  Listing Blogposts
+
+
+<%= link_to 'New Blogpost', new_blogpost_path, class: "btn btn-primary" %>
+<%= link_to 'Show all', blogposts_path, class: "btn btn-primary" %>
+</h1>
+
+
+<div id="tag_cloud" class="well">
+  <% tag_cloud Blogpost.tag_counts, %w[s m l] do |tag, css_class| %>
+    <% css_class += " badge" if tag.name == params[:tag] %>
+    <%= link_to tag.name, tag_path(tag.name), class: css_class %>
+  <% end %>
+</div>
+
+
+
+    <% @blogposts.each do |blogpost| %>
+      <div class="blogpost well">
+        <div class="avatar">
+          <%= image_tag(blogpost.user.avatar.url(:thumb)) %></div>
+        <h2><%= blogpost.author %></h2>
+        <div class="tag-list">
+          <%= raw blogpost.tag_list.map { |t| link_to t, tag_path(t), class: "badge" }.join(' ') %>
+        </div>
+        <div class="body"><%= truncate(blogpost.body, :length => 300) %></div>
+
+        <br><br>
+        <div class="controls">
+          <%= link_to 'Show more', blogpost %>
+          <% if can? :update, blogpost %>
+            | <%= link_to 'Edit', edit_blogpost_path(blogpost) %>
+          <% end %>
+          <% if can? :destroy, blogpost %>
+            | <%= link_to 'Destroy', blogpost, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+
+<br>
+
+
+<% if can? :manage, :all %>
+<%= link_to 'List all users', users_path %>
+<% end %>

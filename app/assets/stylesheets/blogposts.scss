@@ -1,0 +1,43 @@
+// Place all the styles related to the Blogposts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#tag_cloud {
+  line-height: 1.6em;
+  .s { font-size: 0.8em; }
+  .m { font-size: 1.2em; }
+  .l { font-size: 1.8em; }
+  margin: 10px;
+}
+
+.blogpost {
+	margin: 10px;
+//	border: 1px #999 solid;
+	//background-color: #eaeaea;
+	padding: 10px;
+
+	.avatar {
+		float: left;
+		margin-right: 5px;
+	}
+
+	.controls {
+		clear: both;
+		margin-top: 5px;
+		border-top: 1px #aaa solid;
+		color: #999;
+	}
+	.tag-list {
+		margin-bottom: 5px;
+	}
+}
+
+.blogpost-show {
+	margin: 10px;
+	.body {
+		margin-top: 5px;
+	}
+}
+
+.blogpost-form {
+	margin: 10px;
+}
